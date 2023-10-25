@@ -104,7 +104,7 @@ function clearDisplay(){
 }
 
 function backSpace(){
-    let currentValue = getCurrentDisplay();
+    let currentValue = getCurrentDisplay().trimEnd();
     divDisplayBar.textContent=currentValue.slice(0,-1);
 }
 
