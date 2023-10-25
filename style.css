@@ -1,6 +1,43 @@
+#bodyContainer {
+    border: 3px solid black;
+    
+}
+#container {
+    display: inline-flex;
+    flex-direction: column;
+    /* border: 2px solid rgb(0,0,0); */
+}
+
+#divRowContainer {
+    display:flex;
+    justify-content: space-between;
+
+}
+
+#gridDiv {
+    display:flex;
+    width: 16px;
+    height: 16px;
+    /* border: 1px dotted black; */
+}
 button {
     width: 100px;
     height: 100px;
     padding: 10px;
-    margin: 5px;   
+    margin: 5px; 
+    font-size: 20px;  
+}
+
+#divDisplayBar{
+    display: flex;
+    height: 100px;
+    flex-grow: 1;
+    background-color: rgb(207, 207, 207);
+    border: 1px dotted black;
+    margin: 5px;
+    text-align: right;
+    font-size: 30px;
+    font-weight: 500;
+
+
 }
