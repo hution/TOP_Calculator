@@ -1,5 +1,7 @@
 #bodyContainer {
     border: 3px solid black;
+    border-radius: 10px; 
+    width:450px;
     
 }
 #container {
@@ -25,7 +27,9 @@ button {
     height: 100px;
     padding: 10px;
     margin: 5px; 
-    font-size: 20px;  
+    font-size: 20px; 
+    border-radius: 15px; 
+
 }
 
 #divDisplayBar{
@@ -36,8 +40,9 @@ button {
     border: 1px dotted black;
     margin: 5px;
     justify-content: right;
-    font-size: 45px;
+    font-size: 50px;
     font-weight: 500;
+    border-radius: 15px; 
 
 
 }
