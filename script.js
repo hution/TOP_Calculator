@@ -108,6 +108,11 @@ function backSpace(){
     divDisplayBar.textContent=currentValue.slice(0,-1);
 }
 
+function finalCalc(val){
+    clearDisplay();
+    updateDisplay(val);
+}
+
 const buttonList = document.querySelectorAll('.calcButton');
 buttonList.forEach((button) => {
     button.addEventListener('click', function (e) {
@@ -170,9 +175,3 @@ buttonList.forEach((button) => {
     });
 
 });
-
-
-console.log(operate("+",10,31));
-console.log(operate("-",10,31));
-console.log(operate("*",10,31));
-console.log(operate("/",10,31));
