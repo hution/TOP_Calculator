@@ -29,7 +29,7 @@ let buttonInfo = [
 createCalculator();
 
 function add(num1,num2){
-    return num1 + num2;
+    return Number(num1) + Number(num2);
 }
 
 function subtract(num1,num2){
@@ -113,20 +113,62 @@ function finalCalc(val){
     updateDisplay(val);
 }
 
+function getProblemBefore(location, problem){
+
+    return problem.slice(0,location-1);
+
+}
+
+function getProblemAfter(location,problem){
+    return problem.slice(location+1)
+}
+
 function startCalculation(){
     let problem = getCurrentDisplay().split(' ');
     currentTotal=0
     console.log(problem);
-    
-    if(problem.includes('*')){
-        let loc = problem.findIndex((x) => x == '*');
-        currentTotal = multiply(problem[loc-1],problem[loc+1]);
-        problem[loc-1] = currentTotal;
-        let newProblem = problem.splice(loc-1,loc);
-        //can't have + in the array?
-        console.log(currentTotal);
-        console.log(newProblem);
+    let problemBefore = {};
+    let problemAfter = {};
+
+    if (problem.length <= 3){
+        if(problem.includes('*')){
+            let loc = problem.findIndex((x) => x == '*');
+            currentTotal = multiply(problem[loc-1],problem[loc+1]);
+            finalCalc(currentTotal);
+        }
+        else if(problem.includes('/')){
+            let loc = problem.findIndex((x) => x == '/');
+            currentTotal = divide(problem[loc-1],problem[loc+1]);
+            finalCalc(currentTotal);
+        }
+        else if(problem.includes('+')){
+            let loc = problem.findIndex((x) => x == '+');
+            currentTotal = add(problem[loc-1],problem[loc+1]);
+            finalCalc(currentTotal);
+        }
+        else if(problem.includes('-')){
+            let loc = problem.findIndex((x) => x == '-');
+            currentTotal = subtract(problem[loc-1],problem[loc+1]);
+            finalCalc(currentTotal);
+        }
     }
+    else {
+        if(problem.includes('*')){
+            let loc = problem.findIndex((x) => x == '*');
+            currentTotal = multiply(problem[loc-1],problem[loc+1]);
+            problemBefore = getProblemBefore(loc,problem);
+            problemAfter = getProblemAfter(loc,problem); 
+            problem[loc-1] = currentTotal;
+            let newProblem = problemBefore + currentTotal + problemAfter;
+            //can't have + in the array?
+            console.log(currentTotal);
+            console.log(newProblem);
+            finalCalc(newProblem)
+        }
+    }
+
+    
+
 }
 
 const buttonList = document.querySelectorAll('.calcButton');
