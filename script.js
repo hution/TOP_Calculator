@@ -108,6 +108,22 @@ function backSpace(){
     divDisplayBar.textContent=currentValue.slice(0,-1);
 }
 
+function startCalculation(){
+    let problem = getCurrentDisplay().split(' ');
+    currentTotal=0
+    console.log(problem);
+    
+    if(problem.includes('*')){
+        let loc = problem.findIndex((x) => x == '*');
+        currentTotal = multiply(problem[loc-1],problem[loc+1]);
+        problem[loc-1] = currentTotal;
+        let newProblem = problem.splice(loc-1,loc);
+        //can't have + in the array?
+        console.log(currentTotal);
+        console.log(newProblem);
+    }
+}
+
 const buttonList = document.querySelectorAll('.calcButton');
 buttonList.forEach((button) => {
     button.addEventListener('click', function (e) {
@@ -155,7 +171,7 @@ buttonList.forEach((button) => {
                 updateDisplay(" " + e.target.textContent+ " ");
                 break;
             case "=":
-                console.log("= button");
+                startCalculation();
                 break;
             case "<-":
                 backSpace();
