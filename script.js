@@ -115,12 +115,12 @@ function finalCalc(val){
 
 function getProblemBefore(location, problem){
 
-    return problem.slice(0,location-1);
+    return Array.of(problem.slice(0,location-1));
 
 }
 
 function getProblemAfter(location,problem){
-    return problem.slice(location+1)
+    return Array.of(problem.slice(location+2));
 }
 
 function startCalculation(){
@@ -153,18 +153,49 @@ function startCalculation(){
         }
     }
     else {
-        if(problem.includes('*')){
-            let loc = problem.findIndex((x) => x == '*');
-            currentTotal = multiply(problem[loc-1],problem[loc+1]);
-            problemBefore = getProblemBefore(loc,problem);
-            problemAfter = getProblemAfter(loc,problem); 
-            problem[loc-1] = currentTotal;
-            let newProblem = problemBefore + currentTotal + problemAfter;
-            //can't have + in the array?
-            console.log(currentTotal);
-            console.log(newProblem);
-            finalCalc(newProblem)
+        while(problem.length > 3){
+            if(problem.includes('*')){
+                let loc = problem.findIndex((x) => x == '*');
+                currentTotal = Array.of(multiply(problem[loc-1],problem[loc+1]));
+                problemBefore = getProblemBefore(loc,problem);
+                problemAfter = getProblemAfter(loc,problem); 
+                let newProblem = []
+                newProblem = newProblem.concat(problemBefore, currentTotal,problemAfter);
+                problem = newProblem;
+                problem = problem.filter(function(e) {
+                    return String(e).trim();
+                });
+                console.log(problem.flat());
+            }
+            else if(problem.includes('/')){
+                let loc = problem.findIndex((x) => x == '/');
+                currentTotal = multiply(problem[loc-1],problem[loc+1]);
+                problemBefore = getProblemBefore(loc,problem);
+                problemAfter = getProblemAfter(loc,problem); 
+                // problem[loc-1] = currentTotal;
+                problem = problemBefore + currentTotal + problemAfter;
+                console.log(problem)
+            }         
+            else if(problem.includes('+')){
+                let loc = problem.findIndex((x) => x == '+');
+                currentTotal = multiply(problem[loc-1],problem[loc+1]);
+                problemBefore = getProblemBefore(loc,problem);
+                problemAfter = getProblemAfter(loc,problem); 
+                // problem[loc-1] = currentTotal;
+                problem = problemBefore + currentTotal + problemAfter;
+                console.log(problem)
+            }
+            else if(problem.includes('-')){
+                let loc = problem.findIndex((x) => x == '-');
+                currentTotal = multiply(problem[loc-1],problem[loc+1]);
+                problemBefore = getProblemBefore(loc,problem);
+                problemAfter = getProblemAfter(loc,problem); 
+                // problem[loc-1] = currentTotal;
+                problem = problemBefore + currentTotal + problemAfter;
+                console.log(problem)
+            }                
         }
+
     }
 
     
