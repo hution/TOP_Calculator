@@ -33,31 +33,59 @@ function add(num1,num2){
 }
 
 function subtract(num1,num2){
-    return num1 - num2;
+    return Number(num1) - Number(num2);
 }
 
 function multiply(num1,num2){
-    return num1 * num2;
+    return Number(num1) * Number(num2);
 }
 
 function divide(num1,num2){
-    return num1 / num2;
+    return Number(num1) / Number(num2);
 }
 
-function operate(operator, val1, val2) {
+function operate(operator) {
+    let problem = getCurrentDisplay().split(' ');
     switch (operator) {
         case "+":
-            return add(val1,val2);
+            if (problem.length == 3){
+                let answer = startCalculation();
+                finalCalc(answer + " + ");
+            }
+            else{
+                updateDisplay(" + ");
+            }
             break;
         case "-":
-            return subtract(val1,val2);
+            if (problem.length == 3){
+                let answer = startCalculation();
+                finalCalc(answer + " - ");
+            }
+            else{
+                updateDisplay(" - ");
+            }
             break;
         case "*":
-            return multiply(val1,val2);
+            if (problem.length == 3){
+                let answer = startCalculation();
+                finalCalc(answer + " * ");
+            }
+            else{
+                updateDisplay(" * ");
+            }
             break;
         case "/":
-            return divide(val1,val2);
+            if (problem.length == 3){
+                let answer = startCalculation();
+                finalCalc(answer + " / ");
+            }
+            else{
+                updateDisplay(" / ");
+            }
             break;
+        case "=":
+            let answer = startCalculation();
+            finalCalc(answer);
     }
 
 }
@@ -83,6 +111,10 @@ function createCalculator(){
             div.setAttribute('class','calcButton');
             // div.setAttribute('id',buttonInfo[j+(i*4)].idVal;);
             div.textContent=buttonInfo[j+(i*4)].textContent;
+
+            if (div.textContent===" "){
+                div.setAttribute('id', 'empty');
+            }
 
             divRowContainer.appendChild(div);    
         }
@@ -113,95 +145,41 @@ function finalCalc(val){
     updateDisplay(val);
 }
 
-function getProblemBefore(location, problem){
-
-    return Array.of(problem.slice(0,location-1));
-
-}
-
-function getProblemAfter(location,problem){
-    return Array.of(problem.slice(location+2));
+function inProgressCalc(val, operator){
+    clearDisplay();
+    updateDisplay(val + " " + operator);
 }
 
 function startCalculation(){
     let problem = getCurrentDisplay().split(' ');
-    currentTotal=0
+    currentTotal=0;
     console.log(problem);
-    let problemBefore = {};
-    let problemAfter = {};
 
-    if (problem.length <= 3){
+    if (problem.length >2){
         if(problem.includes('*')){
             let loc = problem.findIndex((x) => x == '*');
             currentTotal = multiply(problem[loc-1],problem[loc+1]);
-            finalCalc(currentTotal);
+            return currentTotal;
         }
         else if(problem.includes('/')){
             let loc = problem.findIndex((x) => x == '/');
             currentTotal = divide(problem[loc-1],problem[loc+1]);
-            finalCalc(currentTotal);
+            return currentTotal;
         }
         else if(problem.includes('+')){
             let loc = problem.findIndex((x) => x == '+');
             currentTotal = add(problem[loc-1],problem[loc+1]);
-            finalCalc(currentTotal);
+            return currentTotal;
         }
         else if(problem.includes('-')){
             let loc = problem.findIndex((x) => x == '-');
             currentTotal = subtract(problem[loc-1],problem[loc+1]);
-            finalCalc(currentTotal);
+            return currentTotal;
         }
     }
-    else {
-        while(problem.length > 3){
-            if(problem.includes('*')){
-                let loc = problem.findIndex((x) => x == '*');
-                currentTotal = Array.of(multiply(problem[loc-1],problem[loc+1]));
-                problemBefore = getProblemBefore(loc,problem);
-                problemAfter = getProblemAfter(loc,problem); 
-                let newProblem = []
-                newProblem = newProblem.concat(problemBefore, currentTotal,problemAfter);
-                problem = newProblem;
-                problem = problem.filter(function(e) {
-                    return String(e).trim();
-                });
-                console.log(problem.flat());
-            }
-            else if(problem.includes('/')){
-                let loc = problem.findIndex((x) => x == '/');
-                currentTotal = multiply(problem[loc-1],problem[loc+1]);
-                problemBefore = getProblemBefore(loc,problem);
-                problemAfter = getProblemAfter(loc,problem); 
-                // problem[loc-1] = currentTotal;
-                problem = problemBefore + currentTotal + problemAfter;
-                console.log(problem)
-            }         
-            else if(problem.includes('+')){
-                let loc = problem.findIndex((x) => x == '+');
-                currentTotal = multiply(problem[loc-1],problem[loc+1]);
-                problemBefore = getProblemBefore(loc,problem);
-                problemAfter = getProblemAfter(loc,problem); 
-                // problem[loc-1] = currentTotal;
-                problem = problemBefore + currentTotal + problemAfter;
-                console.log(problem)
-            }
-            else if(problem.includes('-')){
-                let loc = problem.findIndex((x) => x == '-');
-                currentTotal = multiply(problem[loc-1],problem[loc+1]);
-                problemBefore = getProblemBefore(loc,problem);
-                problemAfter = getProblemAfter(loc,problem); 
-                // problem[loc-1] = currentTotal;
-                problem = problemBefore + currentTotal + problemAfter;
-                console.log(problem)
-            }                
-        }
-
-    }
-
-    
 
 }
-
+    
 const buttonList = document.querySelectorAll('.calcButton');
 buttonList.forEach((button) => {
     button.addEventListener('click', function (e) {
@@ -237,19 +215,19 @@ buttonList.forEach((button) => {
                 updateDisplay(e.target.textContent);
                 break;
             case "+":
-                updateDisplay(" " + e.target.textContent+ " ");
+                operate("+");
                 break;
             case "-":
-                updateDisplay(" " + e.target.textContent+ " ");
+                operate("-");
                 break;
             case "/":
-                updateDisplay(" " + e.target.textContent+ " ");
+                operate("/");
                 break;
             case "*":
-                updateDisplay(" " + e.target.textContent+ " ");
+                operate("*");
                 break;
             case "=":
-                startCalculation();
+                operate("=");
                 break;
             case "<-":
                 backSpace();

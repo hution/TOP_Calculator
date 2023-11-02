@@ -33,6 +33,10 @@ button {
 
 }
 
+#empty{
+    visibility: visible;
+}
+
 #divDisplayBar{
     display: flex;
     height: 75px;
